@@ -20,6 +20,8 @@ y_total = np.array(data['SalePrice'])
 # Normalize input data
 scaler_x = StandardScaler()
 x_scaled = scaler_x.fit_transform(x_total)
+mx = np.mean(x_total, axis=0)
+sx = np.std(x_total, axis=0)
 
 
 x_train, x_test, y_train, y_test = train_test_split(x_scaled, y_total, random_state=50, test_size=0.2)
@@ -49,4 +51,7 @@ plt.show()
 y_pred = model.predict(x_test)
 rmse = np.sqrt(mean_squared_error(y_test, y_pred))
 print("Root Mean Squared Error:", rmse)
+my_house_spc = np.array([[2004, 60, 3, 0, 12, 120, 30, 10]])
+my_spc = (my_house_spc-mx)/sx
 # Sequential.save_model(model, 'trained_model.h5')
+print("My House Price:",model.predict(my_spc))
